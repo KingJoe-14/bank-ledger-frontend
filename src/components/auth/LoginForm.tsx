@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "sonner";
-import { apiRequest } from "@/lib/api";
+import { loginUser } from "@/app/lib/api";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -17,14 +17,10 @@ export default function LoginForm() {
         setLoading(true);
 
         try {
-            const data = await apiRequest<{ refresh: string; access: string }>(
-                "/api/users/login/",
-                "POST",
-                { email, password }
-            );
+            const data = await loginUser({ email, password });
 
             if (data?.access && data?.refresh) {
-                // ✅ Save tokens
+                // ✅ Save tokens for later use
                 localStorage.setItem("access", data.access);
                 localStorage.setItem("refresh", data.refresh);
 
@@ -44,11 +40,12 @@ export default function LoginForm() {
         }
     };
 
+
     return (
-        <div className="md:flex w-1/2 flex justify-center items-center bg-gray-50 py-16 px-16 ">
+        <div className="md:flex w-1/2 flex justify-center items-center bg-gray-50 py-16 px-16">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md space-y-6 transform "
+                className="w-full max-w-md space-y-6"
             >
                 <h2 className="text-2xl font-bold text-center">Welcome Back</h2>
 

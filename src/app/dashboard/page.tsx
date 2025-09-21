@@ -1,11 +1,17 @@
 "use client";
 
-import { useAuth } from "";
+import { useAuth } from "@/app/hooks/useAuth";
 
 export default function DashboardPage() {
-    const { isAuthenticated } = useAuth(true); // true = redirect if not logged in
+    const { isAuthenticated } = useAuth(true);
 
-    if (!isAuthenticated) return null; // prevent flicker
+    if (isAuthenticated === null) {
+        return <p className="p-6">Checking authentication...</p>;
+    }
+
+    if (!isAuthenticated) {
+        return <p className="p-6">Redirecting to login...</p>;
+    }
 
     return (
         <div className="p-6">
