@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
     Home,
     Wallet,
@@ -10,6 +11,15 @@ import {
 } from "lucide-react";
 
 export default function Sidebar() {
+    const navItems = [
+        { icon: Home, label: "Dashboard", href: "/dashboard" },
+        { icon: Wallet, label: "My Accounts", href: "/dashboard/accounts" },
+        { icon: CreditCard, label: "Transactions", href: "/dashboard/transactions" },
+        { icon: Send, label: "Transfer Money", href: "/dashboard/transfer" },
+        { icon: BarChart, label: "Analytics", href: "/dashboard/analytics" },
+        { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+    ];
+
     return (
         <aside className="w-64 bg-blue-900 text-white flex flex-col">
             {/* Logo */}
@@ -17,21 +27,15 @@ export default function Sidebar() {
 
             {/* Nav Links */}
             <nav className="flex-1 space-y-2">
-                {[
-                    { icon: Home, label: "Dashboard" },
-                    { icon: Wallet, label: "My Accounts" },
-                    { icon: CreditCard, label: "Transactions" },
-                    { icon: Send, label: "Transfer Money" },
-                    { icon: BarChart, label: "Analytics" },
-                    { icon: Settings, label: "Settings" },
-                ].map((item) => (
-                    <button
+                {navItems.map((item) => (
+                    <Link
                         key={item.label}
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-blue-800 w-full text-left"
+                        href={item.href}
+                        className="flex items-center gap-3 px-4 py-2 hover:bg-blue-800 w-full"
                     >
                         <item.icon className="w-5 h-5" />
                         {item.label}
-                    </button>
+                    </Link>
                 ))}
             </nav>
 

@@ -112,8 +112,9 @@ export default function TransactionsPage() {
                                     </div>
                                     <p className={`font-bold ${color}`}>
                                         {tx.transaction_type === "DEPOSIT" ? "+" : "-"}$
-                                        {tx.amount.toFixed(2)}
+                                        {Number(tx.amount).toFixed(2)}
                                     </p>
+
                                 </div>
                             );
                         })}
