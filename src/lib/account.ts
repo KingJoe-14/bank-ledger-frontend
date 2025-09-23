@@ -43,7 +43,7 @@ export async function fetchDashboardData(token: string): Promise<DashboardRespon
 
 export async function fetchAllTransactions(token: string): Promise<Transaction[]> {
     try {
-        const res = await fetch("http://127.0.0.1:8000/api/transactions/", {
+        const res = await fetch("http://127.0.0.1:8000/api/accounts/transactions/", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
