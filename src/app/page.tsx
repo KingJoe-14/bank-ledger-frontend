@@ -3,9 +3,16 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
-    Landmark, TrendingUp, Headphones
+    Landmark,
+    TrendingUp,
+    Headphones
 } from "lucide-react";
-
+import {
+    FaFacebookF,
+    FaTwitter,
+    FaLinkedinIn,
+    FaInstagram
+} from "react-icons/fa";
 
 export default function HomePage() {
     return (
@@ -82,22 +89,17 @@ export default function HomePage() {
                 </div>
             </section>
 
-
             {/* Why Choose KingYaw */}
             <section className="py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-8 text-center">
-                    {/* Title */}
                     <h2 className="text-4xl font-extrabold text-gray-800 mb-4 inline-block ">
                         Why Choose KingYaw?
                     </h2>
-
-                    {/* Sub text */}
                     <p className="text-gray-600 max-w-xl mx-auto mb-12 text-base">
                         We provide comprehensive banking solutions designed to meet all your
                         financial needs with cutting-edge technology and personalized service.
                     </p>
 
-                    {/* Features */}
                     <div className="grid md:grid-cols-3 gap-8 text-left">
                         {/* Digital Banking */}
                         <div className="p-6 bg-blue-50 rounded-lg shadow-sm hover:shadow-md transition">
@@ -144,7 +146,6 @@ export default function HomePage() {
                 </div>
             </section>
 
-
             {/* Our Services Section */}
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-8 text-center">
@@ -157,7 +158,6 @@ export default function HomePage() {
                     </p>
                 </div>
 
-                {/* Services Content */}
                 <div className="max-w-7xl mx-auto mt-12 flex flex-col lg:flex-row items-center gap-12 px-8">
                     {/* Text Content */}
                     <div className="flex-1 space-y-6">
@@ -190,37 +190,70 @@ export default function HomePage() {
                 </div>
             </section>
 
-
             {/* Call to Action */}
             <section className="py-20 bg-blue-600 text-center text-white">
-                <h2 className="text-4xl font-bold text-white-800 mb-4">Ready to Get Started?</h2>
-                <p className="text-white-600 mx-auto mb-12 text-base">
+                <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
+                <p className="text-white mx-auto mb-12 text-base max-w-2xl">
                     Join thousands of satisfied customers who trust KingYaw for their
                     banking needs. Open your account today and experience the difference.
                 </p>
-                <div className="flex justify-center space-x-4">
-                    <a href="/auth/register">
-                        <Button className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 text-lg">
-                            Open Account
-                        </Button>
-                    </a>
-                    <a href="/auth/login">
-                        <Button
-                            className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 text-lg"
-                        >
-                            Log In
-                        </Button>
-                    </a>
-                </div>
-
             </section>
 
+            {/* Footer */}
+            <footer className="bg-[#0A0F1C] text-white pt-12">
+                <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-10  pb-10">
+                    {/* Brand Section */}
+                    <div>
+                        <div className="flex items-center mb-3">
+                            <div className="bg-blue-600 p-2 rounded-md mr-2">
+                                <Landmark className="w-5 h-5 text-white" />
+                            </div>
+                            <h1 className="text-xl font-bold">KingYaw</h1>
+                        </div>
+                        <p className="text-sm text-gray-400">
+                            Your trusted partner for all banking and financial services.
+                        </p>
+                    </div>
 
+                    {/* Services */}
+                    <div>
+                        <h3 className="font-semibold mb-4">Services</h3>
+                        <ul className="text-sm text-gray-400 space-y-2">
+                            <li>Personal Banking</li>
+                            <li>Business Banking</li>
+                            <li>Investments</li>
+                            <li>Loans</li>
+                        </ul>
+                    </div>
 
-                <div className="bg-blue-600 text-center text-sm text-white">
-                    © 2025 KingYaw Bank. All rights reserved.
+                    {/* Support */}
+                    <div>
+                        <h3 className="font-semibold mb-4">Support</h3>
+                        <ul className="text-sm text-gray-400 space-y-2">
+                            <li>Help Center</li>
+                            <li>Contact Us</li>
+                            <li>Security</li>
+                            <li>Privacy</li>
+                        </ul>
+                    </div>
+
+                    {/* Social Media */}
+                    <div>
+                        <h3 className="font-semibold mb-4">Connect</h3>
+                        <div className="flex space-x-4 text-gray-400">
+                            <FaFacebookF className="hover:text-white cursor-pointer" />
+                            <FaTwitter className="hover:text-white cursor-pointer" />
+                            <FaLinkedinIn className="hover:text-white cursor-pointer" />
+                            <FaInstagram className="hover:text-white cursor-pointer" />
+                        </div>
+                    </div>
                 </div>
 
+                {/* Bottom Bar */}
+                <div className="mt-6 text-sm text-gray-500 text-center py-4 border-t border-gray-700">
+                    © 2025 KingYaw Bank. All rights reserved.
+                </div>
+            </footer>
         </div>
     );
 }
