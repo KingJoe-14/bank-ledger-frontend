@@ -6,6 +6,7 @@ import {
     DevicePhoneMobileIcon,
     BanknotesIcon,
 } from "@heroicons/react/24/solid";
+import {Landmark} from "lucide-react";
 
 type FeatureItemProps = {
     icon: typeof LockClosedIcon;
@@ -29,9 +30,8 @@ export default function LeftSection() {
             <div className="max-w-md text-center space-y-6">
                 {/* Logo + Title */}
                 <div className="flex flex-col items-center">
-                    <div className="w-20 h-20 flex items-center justify-center bg-white rounded-full mb-4">
-                        <BanknotesIcon className="w-10 h-10 text-blue-700" />
-                    </div>
+                    <div className="w-20 h-20 flex items-center justify-center  rounded-full mb-4">
+                        <Landmark className=" text-white" size={150} />                    </div>
                     <h1 className="text-4xl font-bold">KingYaw Bank</h1>
                     <p className="text-sm">Your Trusted Financial Partner</p>
                 </div>

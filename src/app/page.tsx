@@ -1,103 +1,225 @@
+"use client";
+
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+    Landmark, TrendingUp, Headphones
+} from "lucide-react";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+export default function HomePage() {
+    return (
+        <div className="min-h-screen bg-gray-50">
+            {/* Navbar */}
+            <header className="bg-white shadow-sm">
+                <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-4">
+                    <div className="flex items-center space-x-2">
+                        <div className="p-2 bg-blue-600 rounded-md">
+                            <Landmark className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-xl font-bold text-gray-800">KingYaw</span>
+                    </div>
+
+                    <div className="flex space-x-3">
+                        <a href="/auth/login">
+                            <Button
+                                variant="outline"
+                                className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                            >
+                                Log In
+                            </Button>
+                        </a>
+
+                        <a href="/auth/register">
+                            <Button className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 text-lg">
+                                Open Account
+                            </Button>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            {/* Hero Section */}
+            <section className="py-20 lg:py-28">
+                <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between px-8">
+                    {/* Text */}
+                    <div className="max-w-lg space-y-6">
+                        <h1 className="text-5xl font-extrabold text-gray-800">
+                            Banking Made <span className="text-blue-600">Simple</span>
+                        </h1>
+                        <p className="text-gray-600 text-lg">
+                            Experience the future of banking with KingYaw. Secure, fast, and
+                            designed for your financial success.
+                        </p>
+                        <div className="flex space-x-3">
+                            <a href="/auth/login">
+                                <Button
+                                    variant="outline"
+                                    className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                                >
+                                    Log In
+                                </Button>
+                            </a>
+
+                            <a href="/auth/register">
+                                <Button className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 text-lg">
+                                    Open Account
+                                </Button>
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Hero Image */}
+                    <div className="mb-12 lg:mb-0 lg:ml-12 relative w-full max-w-xl">
+                        <Image
+                            src="/Banking.jpg"
+                            alt="Banking App Preview"
+                            width={600}
+                            height={400}
+                            className="rounded-2xl shadow-lg"
+                        />
+                    </div>
+                </div>
+            </section>
+
+
+            {/* Why Choose KingYaw */}
+            <section className="py-20 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-8 text-center">
+                    {/* Title */}
+                    <h2 className="text-4xl font-extrabold text-gray-800 mb-4 inline-block border-b-4 border-blue-600 pb-2">
+                        Why Choose KingYaw?
+                    </h2>
+
+                    {/* Sub text */}
+                    <p className="text-gray-600 max-w-xl mx-auto mb-12 text-base">
+                        We provide comprehensive banking solutions designed to meet all your
+                        financial needs with cutting-edge technology and personalized service.
+                    </p>
+
+                    {/* Features */}
+                    <div className="grid md:grid-cols-3 gap-8 text-left">
+                        {/* Digital Banking */}
+                        <div className="p-6 bg-blue-50 rounded-lg shadow-sm hover:shadow-md transition">
+                            <div className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-md mb-4">
+                                <Landmark className="w-6 h-6" />
+                            </div>
+                            <div className="max-w-sm">
+                                <h3 className="font-semibold text-lg mb-2">Digital Banking</h3>
+                                <p className="text-gray-600 text-sm">
+                                    Access your accounts 24/7 with our award-winning mobile app and
+                                    online banking platform.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Investment Tools */}
+                        <div className="p-6 bg-blue-50 rounded-lg shadow-sm hover:shadow-md transition">
+                            <div className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-md mb-4">
+                                <TrendingUp className="w-6 h-6" />
+                            </div>
+                            <div className="max-w-sm">
+                                <h3 className="font-semibold text-lg mb-2">Investment Tools</h3>
+                                <p className="text-gray-600 text-sm">
+                                    Grow your wealth with our comprehensive investment platform and
+                                    expert financial advice.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* 24/7 Support */}
+                        <div className="p-6 bg-blue-50 rounded-lg shadow-sm hover:shadow-md transition">
+                            <div className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-md mb-4">
+                                <Headphones className="w-6 h-6" />
+                            </div>
+                            <div className="max-w-sm">
+                                <h3 className="font-semibold text-lg mb-2">24/7 Support</h3>
+                                <p className="text-gray-600 text-sm">
+                                    Get help whenever you need it with our round-the-clock customer
+                                    support team.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            {/* Our Services Section */}
+            <section className="py-20 bg-white">
+                <div className="max-w-7xl mx-auto px-8 text-center">
+                    <h2 className="text-4xl font-extrabold text-gray-800 mb-4">
+                        Our Services
+                    </h2>
+                    <p className="text-gray-600 max-w-xl mx-auto mb-12 text-base">
+                        Explore a wide range of banking solutions designed to help you manage,
+                        grow, and secure your finances with confidence.
+                    </p>
+                </div>
+
+                {/* Services Content */}
+                <div className="max-w-7xl mx-auto mt-12 flex flex-col lg:flex-row items-center gap-12 px-8">
+                    {/* Text Content */}
+                    <div className="flex-1 space-y-6">
+                        <h3 className="text-2xl font-bold text-gray-800">
+                            Savings Account
+                        </h3>
+                        <p className="text-gray-600 max-w-md">
+                            Enjoy flexible savings plans with competitive interest rates,
+                            designed to help you achieve your financial goals faster and smarter.
+                        </p>
+                        <h3 className="text-2xl font-bold text-gray-800">
+                            Current Account
+                        </h3>
+                        <p className="text-gray-600 max-w-md">
+                            Get seamless day-to-day transactions with our easy-to-use
+                            current account tailored for individuals and businesses alike.
+                        </p>
+                    </div>
+
+                    {/* Image */}
+                    <div className="flex-1">
+                        <Image
+                            src="/BankingServices.png"
+                            alt="Banking Services"
+                            width={600}
+                            height={400}
+                            className="rounded-2xl shadow-lg"
+                        />
+                    </div>
+                </div>
+            </section>
+
+
+            {/* Call to Action */}
+            <section className="py-20 bg-blue-600 text-center text-white">
+                <h2 className="text-4xl font-bold text-white-800 mb-4">Ready to Get Started?</h2>
+                <p className="text-white-600 mx-auto mb-12 text-base">
+                    Join thousands of satisfied customers who trust KingYaw for their
+                    banking needs. Open your account today and experience the difference.
+                </p>
+                <div className="flex justify-center space-x-4">
+                    <a href="/auth/register">
+                        <Button className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 text-lg">
+                            Open Account
+                        </Button>
+                    </a>
+                    <a href="/auth/login">
+                        <Button
+                            className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 text-lg"
+                        >
+                            Log In
+                        </Button>
+                    </a>
+                </div>
+            </section>
+
+            <footer>
+
+                <div className="text-center text-sm text-gray-500 mt-8">
+                    © 2025 KingYaw Bank. All rights reserved.
+                </div>
+            </footer>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
