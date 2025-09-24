@@ -87,7 +87,7 @@ export default function HomePage() {
             <section className="py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-8 text-center">
                     {/* Title */}
-                    <h2 className="text-4xl font-extrabold text-gray-800 mb-4 inline-block border-b-4 border-blue-600 pb-2">
+                    <h2 className="text-4xl font-extrabold text-gray-800 mb-4 inline-block ">
                         Why Choose KingYaw?
                     </h2>
 
@@ -212,14 +212,15 @@ export default function HomePage() {
                         </Button>
                     </a>
                 </div>
+
             </section>
 
-            <footer>
 
-                <div className="text-center text-sm text-gray-500 mt-8">
+
+                <div className="bg-blue-600 text-center text-sm text-white">
                     © 2025 KingYaw Bank. All rights reserved.
                 </div>
-            </footer>
+
         </div>
     );
 }
