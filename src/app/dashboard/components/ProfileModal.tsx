@@ -21,39 +21,27 @@ const user: User = {
     address: "Adress",
 };
 
-export default function Topbar() {
+export default function ProfileModal() {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="flex justify-between items-center px-6 py-4 bg-white shadow-md">
-            {/* Left side */}
-            <h1 className="text-xl font-semibold">Dashboard</h1>
-
-            {/* Right side user info */}
-            <div>
+        <>
+            {/* Trigger Button (top-right) */}
+            <div className="absolute top-4 right-6">
                 <button
                     onClick={() => setOpen(true)}
-                    className="flex items-center gap-3 hover:bg-gray-100 px-3 py-2 rounded-lg"
+                    className="flex flex-col items-end text-sm font-medium text-gray-700 hover:text-gray-900"
                 >
-                    {/* Avatar */}
-                    <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-                        {user.first_name[0]}
-                        {user.last_name[0]}
-                    </div>
-                    {/* Name + Email */}
-                    <div className="text-left">
-            <span className="block text-sm font-medium text-gray-800">
-              {user.first_name} {user.last_name}
-            </span>
-                        <span className="block text-xs text-gray-500">{user.email}</span>
-                    </div>
+                    <span>{user.first_name} {user.last_name}</span>
+                    <span className="text-gray-500 text-xs">{user.email}</span>
                 </button>
             </div>
 
-            {/* Profile Modal */}
+            {/* Modal */}
             {open && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                <div className="fixed inset-0 flex justify-center items-center z-[9999] bg-transparent">
                     <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 relative">
+
                         {/* Close button */}
                         <button
                             onClick={() => setOpen(false)}
@@ -103,6 +91,6 @@ export default function Topbar() {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 }

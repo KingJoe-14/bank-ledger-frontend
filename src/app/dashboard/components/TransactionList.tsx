@@ -11,7 +11,7 @@ interface Transaction {
 
 const sampleTransactions: Transaction[] = [
     { id: 1, date: "2025-09-20", description: "ATM Withdrawal", amount: -200, type: "debit" },
-    { id: 2, date: "2025-09-18", description: "Salary Deposit", amount: 1500, type: "credit" },
+    { id: 2, date: "2025-09-18", description: "Salary deposit", amount: 1500, type: "credit" },
     { id: 3, date: "2025-09-15", description: "Online Purchase", amount: -75, type: "debit" },
 ];
 
