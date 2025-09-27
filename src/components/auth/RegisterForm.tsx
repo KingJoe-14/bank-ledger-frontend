@@ -8,12 +8,13 @@ import {
     EnvelopeIcon,
     PhoneIcon,
     HomeIcon,
+    IdentificationIcon,
     LockClosedIcon,
-    CurrencyDollarIcon,
     EyeIcon,
     EyeSlashIcon,
+    CalendarDaysIcon,
+    BanknotesIcon,
 } from "@heroicons/react/24/solid";
-import { registerUser } from "@/app/lib/api";
 
 export default function RegisterForm() {
     const router = useRouter();
@@ -24,6 +25,9 @@ export default function RegisterForm() {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [dob, setDob] = useState("");
+    const [ghanaCardNumber, setGhanaCardNumber] = useState("");
+    const [ghanaCardFile, setGhanaCardFile] = useState<File | null>(null);
     const [accountType, setAccountType] = useState("");
     const [password, setPassword] = useState("");
     const [agree, setAgree] = useState(false);
@@ -31,222 +35,276 @@ export default function RegisterForm() {
     // UI state
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrors({});
+
+        if (!agree) {
+            toast.error("You must agree to the Terms & Conditions");
+            return;
+        }
+
         setLoading(true);
 
-        const payload = {
-            first_name: firstName,
-            last_name: lastName,
-            email,
-            phone,
-            address,
-            account_type: accountType,
-            password,
-        };
+        const formData = new FormData();
+        formData.append("first_name", firstName);
+        formData.append("last_name", lastName);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("address", address);
+        formData.append("dob", dob);
+        formData.append("ghana_card_number", ghanaCardNumber);
+        if (ghanaCardFile) {
+            formData.append("ghana_card_file", ghanaCardFile);
+        }
+        formData.append("account_type", accountType);
+        formData.append("password", password);
 
         try {
-            const data = await registerUser(payload);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}register/`, {
+                method: "POST",
+                body: formData,
+            });
+
+            const text = await res.text();
+            let data: any;
+            try {
+                data = JSON.parse(text);
+            } catch {
+                throw new Error(
+                    text.includes("<!DOCTYPE")
+                        ? "Server returned HTML instead of JSON. Check API URL."
+                        : text || "Unexpected server response."
+                );
+            }
+
+            if (!res.ok) {
+                if (data && typeof data === "object") {
+                    setErrors(data); // field-level errors
+                }
+                throw new Error(data.detail || "Registration failed");
+            }
 
             toast.success(data.message || "Account created successfully!");
-
-            // Redirect after short delay
             setTimeout(() => {
                 router.push("/auth/login");
             }, 1500);
         } catch (err: any) {
-            console.error(err);
+            console.error("Registration error:", err);
             toast.error(err.message || "Something went wrong. Please try again.");
         } finally {
             setLoading(false);
         }
     };
 
+    // ✅ Return moved out of handleSubmit
     return (
         <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-50 px-12 py-16">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md space-y-6"
+                className="w-full max-w-md space-y-6 bg-white p-8 rounded-lg shadow"
+                encType="multipart/form-data"
             >
-                {/* Header */}
-                <div className="space-y-1 text-center">
-                    <h2 className="text-2xl font-bold">Create Your Account</h2>
-                    <p className="text-sm text-gray-500">
-                        Join thousands of satisfied customers
-                    </p>
-                </div>
+                <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
 
-                {/* First + Last Name */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="relative">
-                        <UserIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="First Name"
-                            className="w-full border pl-9 p-2.5 rounded"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            required
-                        />
+                {/* First & Last Name */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">First Name</label>
+                        <div className="flex items-center border rounded p-2.5">
+                            <UserIcon className="w-5 h-5 text-gray-500 mr-2" />
+                            <input
+                                type="text"
+                                className="flex-1 outline-none"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        {errors.first_name && <p className="text-red-500 text-sm">{errors.first_name}</p>}
                     </div>
-                    <div className="relative">
-                        <UserIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Last Name"
-                            className="w-full border pl-9 p-2.5 rounded"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            required
-                        />
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                        <div className="flex items-center border rounded p-2.5">
+                            <UserIcon className="w-5 h-5 text-gray-500 mr-2" />
+                            <input
+                                type="text"
+                                className="flex-1 outline-none"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        {errors.last_name && <p className="text-red-500 text-sm">{errors.last_name}</p>}
                     </div>
                 </div>
 
                 {/* Email */}
-                <div className="relative">
-                    <EnvelopeIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="w-full border pl-9 p-2.5 rounded"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Email</label>
+                    <div className="flex items-center border rounded p-2.5">
+                        <EnvelopeIcon className="w-5 h-5 text-gray-500 mr-2" />
+                        <input
+                            type="email"
+                            className="flex-1 outline-none"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                 </div>
 
-                {/* Phone */}
-                <div className="relative">
-                    <PhoneIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                    <input
-                        type="tel"
-                        placeholder="Phone Number"
-                        className="w-full border pl-9 p-2.5 rounded"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required
-                    />
+                {/* Phone & Address */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Phone</label>
+                        <div className="flex items-center border rounded p-2.5">
+                            <PhoneIcon className="w-5 h-5 text-gray-500 mr-2" />
+                            <input
+                                type="text"
+                                className="flex-1 outline-none"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                required
+                            />
+                        </div>
+                        {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Address</label>
+                        <div className="flex items-center border rounded p-2.5">
+                            <HomeIcon className="w-5 h-5 text-gray-500 mr-2" />
+                            <input
+                                type="text"
+                                className="flex-1 outline-none"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                                required
+                            />
+                        </div>
+                        {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
+                    </div>
                 </div>
 
-                {/* Address */}
-                <div className="relative">
-                    <HomeIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                {/* DOB */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <div className="flex items-center border rounded p-2.5">
+                        <CalendarDaysIcon className="w-5 h-5 text-gray-500 mr-2" />
+                        <input
+                            type="date"
+                            className="flex-1 outline-none"
+                            value={dob}
+                            onChange={(e) => setDob(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
+                </div>
+
+                {/* Ghana Card Number */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Ghana Card Number</label>
+                    <div className="flex items-center border rounded p-2.5">
+                        <IdentificationIcon className="w-5 h-5 text-gray-500 mr-2" />
+                        <input
+                            type="text"
+                            placeholder="GHA-XXXXXXXXX-X"
+                            className="flex-1 outline-none"
+                            value={ghanaCardNumber}
+                            onChange={(e) => setGhanaCardNumber(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {errors.ghana_card_number && <p className="text-red-500 text-sm">{errors.ghana_card_number}</p>}
+                </div>
+
+                {/* Ghana Card File */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Upload Ghana Card</label>
                     <input
-                        type="text"
-                        placeholder="Address"
-                        className="w-full border pl-9 p-2.5 rounded"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        type="file"
+                        accept="image/*,application/pdf"
+                        className="w-full border p-2.5 rounded"
+                        onChange={(e) => setGhanaCardFile(e.target.files?.[0] || null)}
                         required
                     />
+                    {errors.ghana_card_file && <p className="text-red-500 text-sm">{errors.ghana_card_file}</p>}
                 </div>
 
                 {/* Account Type */}
-                <div className="relative">
-                    <CurrencyDollarIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                    <select
-                        className="w-full border pl-9 p-2.5 rounded appearance-none"
-                        value={accountType}
-                        onChange={(e) => setAccountType(e.target.value)}
-                        required
-                    >
-                        <option value="">-- Select Account Type --</option>
-                        <option value="savings">Savings</option>
-                        <option value="current">Current</option>
-                        <option value="business">Business</option>
-                    </select>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Account Type</label>
+                    <div className="flex items-center border rounded p-2.5">
+                        <BanknotesIcon className="w-5 h-5 text-gray-500 mr-2" />
+                        <select
+                            className="flex-1 outline-none"
+                            value={accountType}
+                            onChange={(e) => setAccountType(e.target.value)}
+                            required
+                        >
+                            <option value="">Select account type</option>
+                            <option value="SAVINGS">Savings</option>
+                            <option value="CURRENT">Current</option>
+                        </select>
+                    </div>
+                    {errors.account_type && <p className="text-red-500 text-sm">{errors.account_type}</p>}
                 </div>
 
-                {/* Password with toggle */}
-                <div className="relative">
-                    <LockClosedIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        className="w-full border pl-9 pr-10 p-2.5 rounded"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <button
-                        type="button"
-                        className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >
-                        {showPassword ? (
-                            <EyeSlashIcon className="w-5 h-5" />
-                        ) : (
-                            <EyeIcon className="w-5 h-5" />
-                        )}
-                    </button>
+                {/* Password */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Password</label>
+                    <div className="flex items-center border rounded p-2.5">
+                        <LockClosedIcon className="w-5 h-5 text-gray-500 mr-2" />
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            className="flex-1 outline-none"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="ml-2"
+                        >
+                            {showPassword ? (
+                                <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                            ) : (
+                                <EyeIcon className="w-5 h-5 text-gray-500" />
+                            )}
+                        </button>
+                    </div>
+                    {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                 </div>
 
-                {/* Terms & Conditions */}
-                <label className="flex items-start text-sm space-x-2">
+                {/* Terms */}
+                <div className="flex items-center space-x-2">
                     <input
                         type="checkbox"
-                        className="h-4 w-4 mt-1"
                         checked={agree}
                         onChange={(e) => setAgree(e.target.checked)}
-                        required
+                        className="h-4 w-4 border-gray-300 rounded"
                     />
-                    <span>
+                    <label className="text-sm text-gray-700">
                         I agree to the{" "}
-                        <a href="#" className="text-blue-600 hover:underline">
-                            Terms & Conditions
-                        </a>{" "}
-                        and{" "}
-                        <a href="#" className="text-blue-600 hover:underline">
-                            Privacy Policy
-                        </a>
-                    </span>
-                </label>
+                        <a href="#" className="text-blue-600 underline">Terms & Conditions</a>
+                    </label>
+                </div>
 
                 {/* Submit */}
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-blue-600 text-white p-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 flex items-center justify-center"
+                    className="w-full bg-blue-600 text-white py-2.5 rounded hover:bg-blue-700 disabled:bg-gray-400"
                 >
-                    {loading ? (
-                        <>
-                            <svg
-                                className="animate-spin h-5 w-5 mr-2 text-white"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle
-                                    className="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    strokeWidth="4"
-                                />
-                                <path
-                                    className="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8v8z"
-                                />
-                            </svg>
-                            Creating...
-                        </>
-                    ) : (
-                        "Create Account"
-                    )}
+                    {loading ? "Creating Account..." : "Create Account"}
                 </button>
-
-                <div className="text-center text-sm mt-4">
-                    Already have an account?{" "}
-                    <a
-                        href="/auth/login"
-                        className="text-blue-600 hover:underline font-medium"
-                    >
-                        Sign in
-                    </a>
-                </div>
             </form>
         </div>
     );

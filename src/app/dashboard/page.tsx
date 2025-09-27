@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import { PlusCircle, ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import { fetchDashboardData, DashboardResponse } from "@/lib/account";
+import { useRouter } from "next/navigation"; // ✅ import router
 
 export default function DashboardPage() {
     const [data, setData] = useState<DashboardResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const router = useRouter(); // ✅ init router
 
     useEffect(() => {
         async function loadData() {
@@ -18,7 +21,7 @@ export default function DashboardPage() {
                     return;
                 }
 
-                const res = await fetchDashboardData(token); // ✅ pass token
+                const res = await fetchDashboardData(token);
                 setData(res);
             } catch (err: any) {
                 setError(err.message || "Failed to load data");
@@ -72,13 +75,22 @@ export default function DashboardPage() {
 
             {/* Quick Actions */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <button className="flex-1 bg-green-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2">
+                <button
+                    onClick={() => router.push("/dashboard/deposit")} // ✅ navigate
+                    className="flex-1 bg-green-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
+                >
                     <PlusCircle /> Deposit Money
                 </button>
-                <button className="flex-1 bg-red-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2">
+                <button
+                    onClick={() => router.push("/withdraw")} // ✅ navigate
+                    className="flex-1 bg-red-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
+                >
                     <ArrowDownCircle /> Withdraw Money
                 </button>
-                <button className="flex-1 bg-purple-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2">
+                <button
+                    onClick={() => router.push("/transfer")} // ✅ navigate
+                    className="flex-1 bg-purple-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
+                >
                     <ArrowUpCircle /> Transfer Money
                 </button>
             </div>
@@ -120,7 +132,8 @@ export default function DashboardPage() {
                             const color =
                                 tx.transaction_type === "DEPOSIT"
                                     ? "text-green-500"
-                                    : tx.transaction_type === "WITHDRAW" || tx.transaction_type === "TRANSFER_OUT"
+                                    : tx.transaction_type === "WITHDRAW" ||
+                                    tx.transaction_type === "TRANSFER_OUT"
                                         ? "text-red-500"
                                         : "text-gray-500";
 
