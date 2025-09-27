@@ -17,7 +17,7 @@ import {
 export default function HomePage() {
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Navbar */}
+
             <header className="bg-white shadow-sm">
                 <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-4">
                     <div className="flex items-center space-x-2">
@@ -76,7 +76,7 @@ export default function HomePage() {
                         </div>
                     </div>
 
-                    {/* Hero Image */}
+
                     <div className="mb-12 lg:mb-0 lg:ml-12 relative w-full max-w-xl">
                         <Image
                             src="/Banking.jpg"
@@ -89,7 +89,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* Why Choose KingYaw */}
+
             <section className="py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-8 text-center">
                     <h2 className="text-4xl font-extrabold text-gray-800 mb-4 inline-block ">
@@ -101,7 +101,7 @@ export default function HomePage() {
                     </p>
 
                     <div className="grid md:grid-cols-3 gap-8 text-left">
-                        {/* Digital Banking */}
+
                         <div className="p-6 bg-blue-50 rounded-lg shadow-sm hover:shadow-md transition">
                             <div className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-md mb-4">
                                 <Landmark className="w-6 h-6" />
@@ -115,7 +115,7 @@ export default function HomePage() {
                             </div>
                         </div>
 
-                        {/* Investment Tools */}
+
                         <div className="p-6 bg-blue-50 rounded-lg shadow-sm hover:shadow-md transition">
                             <div className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-md mb-4">
                                 <TrendingUp className="w-6 h-6" />
@@ -129,7 +129,7 @@ export default function HomePage() {
                             </div>
                         </div>
 
-                        {/* 24/7 Support */}
+
                         <div className="p-6 bg-blue-50 rounded-lg shadow-sm hover:shadow-md transition">
                             <div className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-md mb-4">
                                 <Headphones className="w-6 h-6" />
@@ -146,7 +146,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* Our Services Section */}
+
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-8 text-center">
                     <h2 className="text-4xl font-extrabold text-gray-800 mb-4">
@@ -159,7 +159,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="max-w-7xl mx-auto mt-12 flex flex-col lg:flex-row items-center gap-12 px-8">
-                    {/* Text Content */}
+
                     <div className="flex-1 space-y-6">
                         <h3 className="text-2xl font-bold text-gray-800">
                             Savings Account
@@ -177,7 +177,7 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    {/* Image */}
+
                     <div className="flex-1">
                         <Image
                             src="/BankingServices.png"
@@ -190,7 +190,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* Call to Action */}
+
             <section className="py-20 bg-blue-600 text-center text-white">
                 <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
                 <p className="text-white mx-auto mb-12 text-base max-w-2xl">
@@ -199,7 +199,7 @@ export default function HomePage() {
                 </p>
             </section>
 
-            {/* Footer */}
+
             <footer className="bg-[#0A0F1C] text-white pt-12">
                 <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-10  pb-10">
                     {/* Brand Section */}
@@ -215,7 +215,7 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    {/* Services */}
+
                     <div>
                         <h3 className="font-semibold mb-4">Services</h3>
                         <ul className="text-sm text-gray-400 space-y-2">
@@ -226,7 +226,7 @@ export default function HomePage() {
                         </ul>
                     </div>
 
-                    {/* Support */}
+
                     <div>
                         <h3 className="font-semibold mb-4">Support</h3>
                         <ul className="text-sm text-gray-400 space-y-2">
@@ -237,7 +237,7 @@ export default function HomePage() {
                         </ul>
                     </div>
 
-                    {/* Social Media */}
+
                     <div>
                         <h3 className="font-semibold mb-4">Connect</h3>
                         <div className="flex space-x-4 text-gray-400">
@@ -249,7 +249,7 @@ export default function HomePage() {
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
+
                 <div className="mt-6 text-sm text-gray-500 text-center py-4 border-t border-gray-700">
                     © 2025 KingYaw Bank. All rights reserved.
                 </div>
