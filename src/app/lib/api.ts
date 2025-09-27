@@ -101,8 +101,30 @@ async function attemptTokenRefresh(): Promise<boolean> {
 // 🔹 Auth & User APIs
 // ------------------------------
 export async function registerUser(data: any) {
+    // If it's FormData, skip JSON headers & stringify
+    if (data instanceof FormData) {
+        let res = await fetch(`${API_URL}/api/users/register/`, {
+            method: "POST",
+            body: data,
+        });
+
+        if (!res.ok) {
+            let errorMessage;
+            try {
+                const errData = await res.json();
+                errorMessage = errData.detail || JSON.stringify(errData);
+            } catch {
+                errorMessage = await res.text();
+            }
+            throw new Error(errorMessage);
+        }
+        return res.json();
+    }
+
+    // Default JSON flow (no file upload)
     return apiRequest("/api/users/register/", "POST", data);
 }
+
 
 export async function loginUser(data: any) {
     const response = await apiRequest("/api/users/login/", "POST", data);
