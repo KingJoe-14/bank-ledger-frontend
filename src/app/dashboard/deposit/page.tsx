@@ -1,49 +1,35 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type Account = {
     id: number;
     account_number: string;
     account_type: string;
+    balance: string;
+    is_active: boolean;
 };
 
 export default function DepositPage() {
     const [accounts, setAccounts] = useState<Account[]>([]);
-    const [accountId, setAccountId] = useState<number | null>(null);
+    const [selectedAccount, setSelectedAccount] = useState("");
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
 
-    const router = useRouter();
-
-    // Load accounts (so user can select where to deposit)
     useEffect(() => {
         async function fetchAccounts() {
             try {
-                const token = localStorage.getItem("access");
-                if (!token) {
-                    setError("Please log in first.");
-                    return;
-                }
-
-                const res = await fetch("http://localhost:8000/api/accounts/", {
+                const res = await fetch("http://127.0.0.1:8000/api/accounts/accounts/my/", {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${localStorage.getItem("access")}`,
                     },
                 });
 
-                if (!res.ok) {
-                    throw new Error("Failed to load accounts");
-                }
-
+                if (!res.ok) throw new Error("Failed to fetch accounts");
                 const data = await res.json();
-                setAccounts(data);
-            } catch (err: any) {
-                setError(err.message);
+                setAccounts(data.results); // 👈 use results array
+            } catch (err) {
+                console.error(err);
             }
         }
 
@@ -52,115 +38,68 @@ export default function DepositPage() {
 
     async function handleDeposit(e: React.FormEvent) {
         e.preventDefault();
-        setLoading(true);
-        setMessage(null);
-        setError(null);
-
         try {
-            const token = localStorage.getItem("access");
-            if (!token) {
-                setError("Please log in first.");
-                return;
-            }
-
-            const res = await fetch("http://localhost:8000/api/transactions/create/", {
+            const res = await fetch("http://127.0.0.1:8000/api/accounts/transactions/create/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${localStorage.getItem("access")}`,
                 },
                 body: JSON.stringify({
                     transaction_type: "DEPOSIT",
-                    account_id: accountId,
-                    amount,
+                    account_id: selectedAccount,
+                    amount: parseFloat(amount),
                     description,
                 }),
             });
 
             const data = await res.json();
+            if (!res.ok) throw new Error(data.detail || "Deposit failed");
 
-            if (!res.ok) {
-                throw new Error(data.detail || "deposit failed");
-            }
-
-            setMessage(data.detail + " New balance: $" + data.new_balance.toFixed(2));
-            setAmount("");
-            setDescription("");
-            setAccountId(null);
-
-            // Optionally redirect back to dashboard after success
-            setTimeout(() => {
-                router.push("/dashboard");
-            }, 2000);
-
+            alert(`✅ Deposit successful! New balance: ${data.new_balance}`);
         } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            alert(`❌ ${err.message}`);
         }
     }
 
     return (
-        <div className="p-6 max-w-lg mx-auto">
-            <h1 className="text-2xl font-bold mb-4">Deposit Money</h1>
+        <form onSubmit={handleDeposit} className="space-y-4 max-w-md mx-auto mt-10 p-6 border rounded-lg">
+            <h2 className="text-lg font-bold">Make a Deposit</h2>
 
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            {message && <p className="text-green-600 mb-4">{message}</p>}
+            <select
+                value={selectedAccount}
+                onChange={(e) => setSelectedAccount(e.target.value)}
+                className="w-full border rounded px-3 py-2 text-sm"
+                required
+            >
+                <option value="">Select Account</option>
+                {accounts.map((acc) => (
+                    <option key={acc.id} value={acc.id}>
+                        {acc.account_number} ({acc.account_type})
+                    </option>
+                ))}
+            </select>
 
-            <form onSubmit={handleDeposit} className="space-y-4">
-                {/* Account Select */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Select Account</label>
-                    <select
-                        value={accountId ?? ""}
-                        onChange={(e) => setAccountId(Number(e.target.value))}
-                        className="w-full border rounded-lg p-2"
-                        required
-                    >
-                        <option value="">-- Choose Account --</option>
-                        {accounts.map((acc) => (
-                            <option key={acc.id} value={acc.id}>
-                                {acc.account_type} - {acc.account_number}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+            <input
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-full border rounded px-3 py-2 text-sm"
+                required
+            />
 
-                {/* Amount Input */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Amount</label>
-                    <input
-                        type="number"
-                        step="0.01"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className="w-full border rounded-lg p-2"
-                        placeholder="Enter amount"
-                        required
-                    />
-                </div>
+            <input
+                type="text"
+                placeholder="Description (optional)"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border rounded px-3 py-2 text-sm"
+            />
 
-                {/* Description Input */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Description</label>
-                    <input
-                        type="text"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        className="w-full border rounded-lg p-2"
-                        placeholder="Optional"
-                    />
-                </div>
-
-                {/* Submit Button */}
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-green-600 text-white rounded-lg py-2 font-medium hover:bg-green-700 disabled:opacity-50"
-                >
-                    {loading ? "Processing..." : "deposit"}
-                </button>
-            </form>
-        </div>
+            <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">
+                Deposit
+            </button>
+        </form>
     );
 }

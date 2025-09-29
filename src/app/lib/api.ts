@@ -17,12 +17,21 @@ export async function apiRequest(
 
     if (!res.ok) {
         let errorMessage = "Request failed";
+
         try {
             const errorData = await res.json();
-            errorMessage = errorData?.detail || JSON.stringify(errorData);
-        } catch (e) {
-            errorMessage = await res.text();
+            errorMessage =
+                errorData?.detail ||
+                errorData?.message ||
+                JSON.stringify(errorData);
+        } catch {
+            try {
+                errorMessage = await res.text();
+            } catch {
+                errorMessage = `HTTP ${res.status}`;
+            }
         }
+
         throw new Error(errorMessage);
     }
 
@@ -35,4 +44,13 @@ export async function registerUser(data: any) {
 
 export async function loginUser(data: any) {
     return apiRequest("/users/login/", "POST", data);
+}
+
+export async function depositMoney(payload: {
+    transaction_type: "DEPOSIT";
+    account_id: number;
+    amount: string;
+    description?: string;
+}) {
+    return apiRequest("/transactions/create/", "POST", payload);
 }

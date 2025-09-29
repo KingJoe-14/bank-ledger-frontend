@@ -86,7 +86,6 @@ export default function MyAccountPage() {
                             <p className="text-3xl font-bold text-gray-900">
                                 ${account.balance.toFixed(2)}
                             </p>
-                            <p className="text-sm text-green-600">Account in good standing</p>
                         </div>
 
                         {/* Quick Actions */}

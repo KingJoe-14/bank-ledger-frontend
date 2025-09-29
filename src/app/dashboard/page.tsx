@@ -40,7 +40,6 @@ export default function DashboardPage() {
         <div>
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Dashboard</h1>
                 <p className="text-sm text-gray-500">
                     Last updated: {new Date().toLocaleTimeString()}
                 </p>
@@ -53,7 +52,6 @@ export default function DashboardPage() {
                     <h2 className="text-2xl font-bold">
                         ${data.total_balance.toFixed(2)}
                     </h2>
-                    <p className="text-sm text-green-300">+2.25% from last month</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 shadow">
                     <p>First Account</p>
