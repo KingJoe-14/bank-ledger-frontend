@@ -6,8 +6,7 @@ import {
     Wallet,
     CreditCard,
     Send,
-    BarChart,
-    Settings,
+    BookText,
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -16,16 +15,13 @@ export default function Sidebar() {
         { icon: Wallet, label: "My Accounts", href: "/dashboard/accounts" },
         { icon: CreditCard, label: "Transactions", href: "/dashboard/transactions" },
         { icon: Send, label: "Transfer Money", href: "/dashboard/transfer" },
-        { icon: BarChart, label: "Analytics", href: "/dashboard/analytics" },
-        { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+        { icon: BookText, label: "Bank Statement", href: "/dashboard/statement" },
     ];
 
     return (
         <aside className="w-64 bg-blue-900 text-white flex flex-col">
-            {/* Logo */}
             <div className="p-4 text-lg font-bold">KingYaw Bank</div>
 
-            {/* Nav Links */}
             <nav className="flex-1 space-y-2">
                 {navItems.map((item) => (
                     <Link
@@ -39,13 +35,12 @@ export default function Sidebar() {
                 ))}
             </nav>
 
-            {/* Profile */}
             <div className="p-4 border-t border-blue-700">
                 <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-full bg-gray-200"></div>
                     <div>
-                        <p className="text-sm font-medium">Abigail Thompson</p>
-                        <p className="text-xs text-gray-300">SAVINGS Account</p>
+                        {/*<p className="text-sm font-medium">Abigail Thompson</p>*/}
+                        {/*<p className="text-xs text-gray-300">SAVINGS Account</p>*/}
                     </div>
                 </div>
             </div>

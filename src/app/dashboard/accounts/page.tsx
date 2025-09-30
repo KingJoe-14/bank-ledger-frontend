@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button"; // if you use shadcn/ui
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 type Account = {
     name?: string;
@@ -76,8 +77,8 @@ export default function MyAccountPage() {
                                 account.is_active ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
                             }`}
                         >
-              {account.is_active ? "Active" : "Inactive"}
-            </span>
+                            {account.is_active ? "Active" : "Inactive"}
+                        </span>
                     </div>
 
                     <div className="mt-6 flex items-center justify-between">
@@ -86,18 +87,28 @@ export default function MyAccountPage() {
                             <p className="text-3xl font-bold text-gray-900">
                                 ${account.balance.toFixed(2)}
                             </p>
-                            <p className="text-sm text-green-600">Account in good standing</p>
                         </div>
 
                         {/* Quick Actions */}
                         <div className="space-y-2">
-                            <Button className="w-full">Deposit Funds</Button>
-                            <Button variant="outline" className="w-full">
-                                Transfer Money
-                            </Button>
-                            <Button variant="ghost" className="w-full">
-                                Download Statement
-                            </Button>
+                            <Link href="/dashboard/deposit">
+                                <Button className="w-full">Deposit Funds</Button>
+                            </Link>
+                            <Link href="/dashboard/withdraw">
+                                <Button variant="outline" className="w-full">
+                                    Withdraw Money
+                                </Button>
+                            </Link>
+                            <Link href="/dashboard/transfer">
+                                <Button variant="outline" className="w-full">
+                                    Transfer Money
+                                </Button>
+                            </Link>
+                            <Link href="/statement">
+                                <Button variant="ghost" className="w-full">
+                                    Download Statement
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </CardContent>
