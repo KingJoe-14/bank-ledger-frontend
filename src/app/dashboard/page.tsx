@@ -80,13 +80,13 @@ export default function DashboardPage() {
                     <PlusCircle /> Deposit Money
                 </button>
                 <button
-                    onClick={() => router.push("/withdraw")} // ✅ navigate
+                    onClick={() => router.push("dashboard/withdraw")} // ✅ navigate
                     className="flex-1 bg-red-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
                 >
                     <ArrowDownCircle /> Withdraw Money
                 </button>
                 <button
-                    onClick={() => router.push("/transfer")} // ✅ navigate
+                    onClick={() => router.push("dashboard/transfer")} // ✅ navigate
                     className="flex-1 bg-purple-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
                 >
                     <ArrowUpCircle /> Transfer Money

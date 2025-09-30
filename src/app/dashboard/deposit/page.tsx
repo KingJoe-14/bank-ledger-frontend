@@ -97,7 +97,7 @@ export default function DepositPage() {
                 className="w-full border rounded px-3 py-2 text-sm"
             />
 
-            <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">
+            <button type="submit" className="w-full bg-green-600 text-white py-2 rounded">
                 Deposit
             </button>
         </form>
