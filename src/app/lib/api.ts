@@ -58,3 +58,8 @@ export async function depositMoney(payload: {
 export async function getBankStatement() {
     return apiRequest("/accounts/statement/", "GET");
 }
+
+export function logoutUser() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+}

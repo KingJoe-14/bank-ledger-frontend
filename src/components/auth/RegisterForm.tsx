@@ -23,7 +23,6 @@ import { registerUser } from "@/app/lib/api";
 export default function RegisterForm() {
     const router = useRouter();
 
-    // Form state
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -36,7 +35,6 @@ export default function RegisterForm() {
     const [password, setPassword] = useState("");
     const [agree, setAgree] = useState(false);
 
-    // UI state
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
