@@ -10,7 +10,6 @@ export default function TransactionsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Filters
     const [search, setSearch] = useState("");
     const [typeFilter, setTypeFilter] = useState("ALL");
 
@@ -33,7 +32,6 @@ export default function TransactionsPage() {
         loadTransactions();
     }, []);
 
-    // Apply filters
     const filtered = transactions.filter((tx) => {
         const matchesSearch =
             tx.transaction_type.toLowerCase().includes(search.toLowerCase()) ||
@@ -61,7 +59,6 @@ export default function TransactionsPage() {
         <div className="p-3 sm:p-4 md:p-6">
             <h1 className="text-xl sm:text-2xl font-bold mb-4">Transactions</h1>
 
-            {/* Filters */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
                 <input
                     type="text"
@@ -83,7 +80,6 @@ export default function TransactionsPage() {
                 </select>
             </div>
 
-            {/* Transactions List */}
             <div className="bg-white rounded-lg sm:rounded-xl shadow p-3 sm:p-4">
                 {filtered.length > 0 ? (
                     <div className="space-y-3">

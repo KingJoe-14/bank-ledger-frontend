@@ -1,4 +1,3 @@
-// src/app/dashboard/transfer/page.tsx
 "use client";
 
 import TransferForm from "../components/TransferForm";

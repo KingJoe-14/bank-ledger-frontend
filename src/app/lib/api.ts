@@ -54,3 +54,7 @@ export async function depositMoney(payload: {
 }) {
     return apiRequest("/transactions/create/", "POST", payload);
 }
+
+export async function getBankStatement() {
+    return apiRequest("/accounts/statement/", "GET");
+}
