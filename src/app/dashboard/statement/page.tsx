@@ -67,7 +67,6 @@ export default function StatementPage() {
 
     let runningBalance = 0;
 
-    // 🔽 CSV download function
     const downloadCSV = () => {
         const headers = ["Date", "Type", "Amount", "Running Balance"];
         let csv = headers.join(",") + "\n";

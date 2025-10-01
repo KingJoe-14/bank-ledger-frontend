@@ -300,7 +300,7 @@ export default function RegisterForm() {
                         href="/auth/login"
                         className="text-blue-600 hover:underline font-medium"
                     >
-                        Register
+                        Login
                     </a>
                 </div>
 
