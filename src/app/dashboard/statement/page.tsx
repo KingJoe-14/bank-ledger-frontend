@@ -27,7 +27,7 @@ export default function StatementPage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("access"); // JWT token from login
+        const token = localStorage.getItem("access");
         if (!token) {
             setError("No access token found. Please log in.");
             setLoading(false);
@@ -71,7 +71,7 @@ export default function StatementPage() {
         const headers = ["Date", "Type", "Amount", "Running Balance"];
         let csv = headers.join(",") + "\n";
 
-        runningBalance = 0; // reset
+        runningBalance = 0;
         transactions.forEach((txn) => {
             if (txn.transaction_type === "DEPOSIT") {
                 runningBalance += parseFloat(txn.amount);
@@ -105,7 +105,6 @@ export default function StatementPage() {
 
     return (
         <div className="p-6">
-            {/* Header Row */}
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">Bank Statement</h1>
                 <button
