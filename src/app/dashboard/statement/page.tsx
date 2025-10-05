@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 type Transaction = {
     id: number;
@@ -65,14 +67,22 @@ export default function StatementPage() {
         (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
 
-    let runningBalance = 0;
+    // --- FIXED FUNCTION: Download PDF ---
+    const downloadPDF = () => {
+        const doc = new jsPDF();
+        let runningBalance = 0;
 
-    const downloadCSV = () => {
-        const headers = ["Date", "Type", "Amount", "Running Balance"];
-        let csv = headers.join(",") + "\n";
+        // Title
+        doc.setFontSize(16);
+        doc.text("Bank Statement", 14, 20);
 
-        runningBalance = 0;
-        transactions.forEach((txn) => {
+        // Account Info
+        doc.setFontSize(12);
+        doc.text(`Account: ${data.account}`, 14, 30);
+        doc.text(`Final Balance: $${data.balance.toFixed(2)}`, 14, 38);
+
+        // Table data
+        const tableData = transactions.map((txn) => {
             if (txn.transaction_type === "DEPOSIT") {
                 runningBalance += parseFloat(txn.amount);
             } else if (
@@ -82,25 +92,21 @@ export default function StatementPage() {
                 runningBalance -= parseFloat(txn.amount);
             }
 
-            csv += [
+            return [
                 new Date(txn.timestamp).toLocaleString(),
                 txn.transaction_type,
-                txn.amount,
-                runningBalance.toFixed(2),
-            ].join(",") + "\n";
+                `$${txn.amount}`,
+                `$${runningBalance.toFixed(2)}`
+            ];
         });
 
-        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute(
-            "download",
-            `bank-statement-${data.account}-${new Date().toISOString()}.csv`
-        );
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        autoTable(doc, {
+            head: [["Date", "Type", "Amount", "Running Balance"]],
+            body: tableData,
+            startY: 50,
+        });
+
+        doc.save(`bank-statement-${data.account}-${new Date().toISOString()}.pdf`);
     };
 
     return (
@@ -108,10 +114,10 @@ export default function StatementPage() {
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">Bank Statement</h1>
                 <button
-                    onClick={downloadCSV}
+                    onClick={downloadPDF}
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
-                    Download Statement
+                    Download PDF
                 </button>
             </div>
 
@@ -131,15 +137,6 @@ export default function StatementPage() {
                 </thead>
                 <tbody>
                 {transactions.map((txn, idx) => {
-                    if (txn.transaction_type === "DEPOSIT") {
-                        runningBalance += parseFloat(txn.amount);
-                    } else if (
-                        txn.transaction_type === "WITHDRAW" ||
-                        txn.transaction_type === "TRANSFER_OUT"
-                    ) {
-                        runningBalance -= parseFloat(txn.amount);
-                    }
-
                     return (
                         <tr
                             key={txn.id}
@@ -151,7 +148,8 @@ export default function StatementPage() {
                             <td className="px-4 py-2 border">{txn.transaction_type}</td>
                             <td className="px-4 py-2 border">${txn.amount}</td>
                             <td className="px-4 py-2 border">
-                                ${runningBalance.toFixed(2)}
+                                {/* Show current balance directly */}
+                                ${data.balance.toFixed(2)}
                             </td>
                         </tr>
                     );
@@ -160,5 +158,4 @@ export default function StatementPage() {
             </table>
         </div>
     );
-
 }
