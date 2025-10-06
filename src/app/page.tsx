@@ -215,7 +215,6 @@ export default function HomePage() {
                         </p>
                     </div>
 
-                    {/* Services */}
                     <div>
                         <h3 className="font-semibold mb-4">Services</h3>
                         <ul className="text-sm text-gray-400 space-y-2">
