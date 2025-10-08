@@ -6,6 +6,11 @@ export async function apiRequest(
 ) {
     const isFormData = body instanceof FormData;
 
+    // Automatically grab token from localStorage if not passed
+    if (!token) {
+        token = localStorage.getItem("token") || undefined;
+    }
+
     const res = await fetch(`http://127.0.0.1:8000/api${endpoint}`, {
         method,
         headers: {
@@ -43,7 +48,15 @@ export async function registerUser(data: any) {
 }
 
 export async function loginUser(data: any) {
-    return apiRequest("/users/login/", "POST", data);
+    const result = await apiRequest("/users/login/", "POST", data);
+
+    // Store tokens in localStorage
+    if (result.access && result.refresh) {
+        localStorage.setItem("token", result.access);
+        localStorage.setItem("refreshToken", result.refresh);
+    }
+
+    return result;
 }
 
 export async function depositMoney(payload: {
@@ -57,6 +70,10 @@ export async function depositMoney(payload: {
 
 export async function getBankStatement() {
     return apiRequest("/accounts/statement/", "GET");
+}
+
+export async function getAdminDashboard() {
+    return apiRequest("/adminpanel/dashboard/", "GET");
 }
 
 export function logoutUser() {
