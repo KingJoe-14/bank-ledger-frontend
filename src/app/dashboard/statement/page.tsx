@@ -67,21 +67,17 @@ export default function StatementPage() {
         (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
 
-    // --- FIXED FUNCTION: Download PDF ---
     const downloadPDF = () => {
         const doc = new jsPDF();
         let runningBalance = 0;
 
-        // Title
         doc.setFontSize(16);
         doc.text("Bank Statement", 14, 20);
 
-        // Account Info
         doc.setFontSize(12);
         doc.text(`Account: ${data.account}`, 14, 30);
         doc.text(`Final Balance: $${data.balance.toFixed(2)}`, 14, 38);
 
-        // Table data
         const tableData = transactions.map((txn) => {
             if (txn.transaction_type === "DEPOSIT") {
                 runningBalance += parseFloat(txn.amount);
@@ -148,7 +144,6 @@ export default function StatementPage() {
                             <td className="px-4 py-2 border">{txn.transaction_type}</td>
                             <td className="px-4 py-2 border">${txn.amount}</td>
                             <td className="px-4 py-2 border">
-                                {/* Show current balance directly */}
                                 ${data.balance.toFixed(2)}
                             </td>
                         </tr>
