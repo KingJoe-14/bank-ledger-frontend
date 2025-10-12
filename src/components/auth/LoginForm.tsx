@@ -21,8 +21,8 @@ export default function LoginForm() {
 
             if (data?.access && data?.refresh) {
                 // ✅ Save tokens for later use
-                localStorage.setItem("access", data.access);
-                localStorage.setItem("refresh", data.refresh);
+                localStorage.setItem("token", data.access);
+                localStorage.setItem("refreshToken", data.refresh);
 
                 toast.success("Login successful");
 

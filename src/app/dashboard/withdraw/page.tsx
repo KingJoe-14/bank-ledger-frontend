@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle } from "lucide-react";
 
 type Account = {
     id: number;
@@ -16,25 +16,29 @@ type ModalState = {
     message: string;
 } | null;
 
-export default function DepositPage() {
+export default function WithdrawPage() {
     const [accounts, setAccounts] = useState<Account[]>([]);
     const [selectedAccount, setSelectedAccount] = useState("");
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
-    const [modal, setModal] = useState<ModalState>(null); // ✅ added modal state
+    const [modal, setModal] = useState<ModalState>(null); // 👈 added modal state
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         async function fetchAccounts() {
             try {
-                const res = await fetch("http://127.0.0.1:8000/api/accounts/accounts/my/", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access")}`,
-                    },
-                });
+                const res = await fetch(
+                    "http://127.0.0.1:8000/api/accounts/accounts/my/",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("access")}`,
+                        },
+                    }
+                );
 
                 if (!res.ok) throw new Error("Failed to fetch accounts");
                 const data = await res.json();
-                setAccounts(data.results); // 👈 use results array
+                setAccounts(data.results); // same as deposit
             } catch (err) {
                 console.error(err);
             }
@@ -43,50 +47,56 @@ export default function DepositPage() {
         fetchAccounts();
     }, []);
 
-    async function handleDeposit(e: React.FormEvent) {
+    async function handleWithdraw(e: React.FormEvent) {
         e.preventDefault();
+        setLoading(true);
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/accounts/transactions/create/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("access")}`,
-                },
-                body: JSON.stringify({
-                    transaction_type: "DEPOSIT",
-                    account_id: selectedAccount,
-                    amount: parseFloat(amount),
-                    description,
-                }),
-            });
+            const res = await fetch(
+                "http://127.0.0.1:8000/api/accounts/transactions/create/",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("access")}`,
+                    },
+                    body: JSON.stringify({
+                        transaction_type: "WITHDRAW",
+                        account_id: selectedAccount,
+                        amount: parseFloat(amount),
+                        description,
+                    }),
+                }
+            );
 
             const data = await res.json();
-            if (!res.ok) throw new Error(data.detail || "Deposit failed");
+            if (!res.ok) throw new Error(data.detail || "Withdrawal failed");
 
-            // ✅ show success modal
+            // ✅ Success modal
             setModal({
                 type: "success",
-                message: `Deposit successful! New balance: ${data.new_balance}`,
+                message: `Withdrawal successful! New balance: ${data.new_balance}`,
             });
 
             setAmount("");
             setDescription("");
         } catch (err: any) {
-            // ❌ show error modal
+            // ❌ Error modal
             setModal({
                 type: "error",
                 message: err.message,
             });
+        } finally {
+            setLoading(false);
         }
     }
 
     return (
         <>
             <form
-                onSubmit={handleDeposit}
+                onSubmit={handleWithdraw}
                 className="space-y-4 max-w-md mx-auto mt-10 p-6 border rounded-lg"
             >
-                <h2 className="text-lg font-bold">Make a Deposit</h2>
+                <h2 className="text-lg font-bold">Withdraw Money</h2>
 
                 <select
                     value={selectedAccount}
@@ -121,9 +131,11 @@ export default function DepositPage() {
 
                 <button
                     type="submit"
-                    className="w-full bg-green-600 text-white py-2 rounded"
+                    className="w-full bg-red-600 text-white py-2 rounded flex items-center justify-center gap-2"
+                    disabled={loading}
                 >
-                    Deposit
+                    {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+                    Withdraw
                 </button>
             </form>
 

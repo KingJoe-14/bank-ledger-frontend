@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { PlusCircle, ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import { fetchDashboardData, DashboardResponse } from "@/lib/account";
-import { useRouter } from "next/navigation"; // ✅ import router
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
     const [data, setData] = useState<DashboardResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const router = useRouter(); // ✅ init router
+    const router = useRouter();
 
     useEffect(() => {
         async function loadData() {
@@ -38,22 +38,18 @@ export default function DashboardPage() {
 
     return (
         <div>
-            {/* Header */}
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Dashboard</h1>
                 <p className="text-sm text-gray-500">
                     Last updated: {new Date().toLocaleTimeString()}
                 </p>
             </div>
 
-            {/* Balance Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div className="bg-blue-600 text-white rounded-xl p-4">
                     <p>Total Balance</p>
                     <h2 className="text-2xl font-bold">
                         ${data.total_balance.toFixed(2)}
                     </h2>
-                    <p className="text-sm text-green-300">+2.25% from last month</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 shadow">
                     <p>First Account</p>
@@ -73,31 +69,28 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            {/* Quick Actions */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <button
-                    onClick={() => router.push("/dashboard/deposit")} // ✅ navigate
+                    onClick={() => router.push("/dashboard/deposit")}
                     className="flex-1 bg-green-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
                 >
                     <PlusCircle /> Deposit Money
                 </button>
                 <button
-                    onClick={() => router.push("/withdraw")} // ✅ navigate
+                    onClick={() => router.push("dashboard/withdraw")}
                     className="flex-1 bg-red-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
                 >
                     <ArrowDownCircle /> Withdraw Money
                 </button>
                 <button
-                    onClick={() => router.push("/transfer")} // ✅ navigate
+                    onClick={() => router.push("dashboard/transfer")}
                     className="flex-1 bg-purple-500 text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2"
                 >
                     <ArrowUpCircle /> Transfer Money
                 </button>
             </div>
 
-            {/* My Accounts + Recent Transactions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* My Accounts */}
                 <div className="bg-white rounded-xl p-4 shadow">
                     <h3 className="text-lg font-bold mb-4">My Accounts</h3>
                     <div className="space-y-3">
@@ -121,7 +114,6 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                {/* Recent Transactions */}
                 <div className="bg-white rounded-xl p-4 shadow">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg font-bold">Recent Transactions</h3>

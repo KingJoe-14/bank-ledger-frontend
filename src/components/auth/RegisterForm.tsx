@@ -16,10 +16,13 @@ import {
     BanknotesIcon,
 } from "@heroicons/react/24/solid";
 
+import { registerUser } from "@/app/lib/api";
+
+
+
 export default function RegisterForm() {
     const router = useRouter();
 
-    // Form state
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -32,7 +35,6 @@ export default function RegisterForm() {
     const [password, setPassword] = useState("");
     const [agree, setAgree] = useState(false);
 
-    // UI state
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -63,43 +65,27 @@ export default function RegisterForm() {
         formData.append("password", password);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}register/`, {
-                method: "POST",
-                body: formData,
-            });
-
-            const text = await res.text();
-            let data: any;
-            try {
-                data = JSON.parse(text);
-            } catch {
-                throw new Error(
-                    text.includes("<!DOCTYPE")
-                        ? "Server returned HTML instead of JSON. Check API URL."
-                        : text || "Unexpected server response."
-                );
-            }
-
-            if (!res.ok) {
-                if (data && typeof data === "object") {
-                    setErrors(data); // field-level errors
-                }
-                throw new Error(data.detail || "Registration failed");
-            }
-
+            const data = await registerUser(formData);
             toast.success(data.message || "Account created successfully!");
-            setTimeout(() => {
-                router.push("/auth/login");
-            }, 1500);
+            router.push("/auth/login");
         } catch (err: any) {
             console.error("Registration error:", err);
-            toast.error(err.message || "Something went wrong. Please try again.");
+
+            if (err.message && err.message.startsWith("{")) {
+                try {
+                    const parsed = JSON.parse(err.message);
+                    setErrors(parsed);
+                } catch {
+                    toast.error("Registration failed");
+                }
+            } else {
+                toast.error(err.message || "Something went wrong. Please try again.");
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    // ✅ Return moved out of handleSubmit
     return (
         <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-50 px-12 py-16">
             <form
@@ -305,6 +291,17 @@ export default function RegisterForm() {
                 >
                     {loading ? "Creating Account..." : "Create Account"}
                 </button>
+
+                <div className="text-center text-sm mt-4">
+                    Already have an account?{" "}
+                    <a
+                        href="/auth/login"
+                        className="text-blue-600 hover:underline font-medium"
+                    >
+                        Login
+                    </a>
+                </div>
+
             </form>
         </div>
     );
