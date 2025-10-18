@@ -6,7 +6,7 @@ export async function apiRequest(
 ) {
     const isFormData = body instanceof FormData;
 
-    if (!token) {
+     if (!token) {
         token = localStorage.getItem("token") || undefined;
     }
 

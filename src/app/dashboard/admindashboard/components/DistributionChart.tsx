@@ -16,7 +16,6 @@ interface DistributionChartProps {
 const COLORS = ["#2563eb", "#10b981", "#f59e0b", "#ef4444"];
 
 export default function DistributionChart({ data }: DistributionChartProps) {
-    // Example fallback
     const chartData =
         data && data.length > 0
             ? data.map((item) => ({
