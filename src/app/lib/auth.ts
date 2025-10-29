@@ -1,12 +1,9 @@
-// lib/auth.ts
 import { apiRequest } from "./api";
 
-// 🔹 Login user
 export const login = async (email: string, password: string) => {
     return apiRequest("/customer/login/", "POST", { email, password });
 };
 
-// 🔹 Register user
 export const register = async (formData: {
     email: string;
     first_name: string;
