@@ -16,7 +16,6 @@ export const register = async (formData: {
     return apiRequest("/customer/register/", "POST", formData);
 };
 
-// 🔹 Get profile (requires token)
 export const getProfile = async (token: string) => {
     return apiRequest("/customer/profile/", "GET", undefined, token);
 };
