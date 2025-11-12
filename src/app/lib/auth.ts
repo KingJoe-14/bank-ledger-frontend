@@ -20,7 +20,6 @@ export const getProfile = async (token: string) => {
     return apiRequest("/customer/profile/", "GET", undefined, token);
 };
 
-// 🔹 Logout (clear token)
 export const logout = () => {
     localStorage.removeItem("token");
 };
