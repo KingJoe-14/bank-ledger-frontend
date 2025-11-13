@@ -58,7 +58,6 @@ export default function MyAccountPage() {
 
     return (
         <div className="p-6 space-y-8 max-w-4xl mx-auto">
-            {/* Welcome Header */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-xl p-8 shadow-lg">
                 <h1 className="text-3xl font-bold">Welcome back, {account.name || "User"} 👋</h1>
                 <p className="text-sm opacity-90 mt-2">
@@ -66,7 +65,6 @@ export default function MyAccountPage() {
                 </p>
             </div>
 
-            {/* Account Card */}
             <Card className="shadow-md border rounded-xl">
                 <CardHeader>
                     <div className="flex items-center justify-between">
