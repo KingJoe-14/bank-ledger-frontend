@@ -85,7 +85,6 @@ export default function MyAccountPage() {
                 </CardHeader>
 
                 <CardContent className="p-6">
-                    {/* Balance Section */}
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm text-gray-500">Current Balance</p>
@@ -94,7 +93,6 @@ export default function MyAccountPage() {
                             </p>
                         </div>
 
-                        {/* Quick Actions */}
                         <div className="flex flex-col gap-3 w-40">
                             <Link href="/dashboard/deposit">
                                 <Button className="w-full">Deposit</Button>
