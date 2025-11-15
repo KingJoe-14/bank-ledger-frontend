@@ -1,4 +1,3 @@
-// src/app/dashboard/components/TransactionList.tsx
 "use client";
 
 interface Transaction {
