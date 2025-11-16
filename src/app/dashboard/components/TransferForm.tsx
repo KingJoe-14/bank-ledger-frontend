@@ -49,7 +49,6 @@ export default function TransferForm() {
 
     return (
         <>
-            {/* Transfer form */}
             <form
                 onSubmit={handleTransfer}
                 className="max-w-md mx-auto bg-white p-6 rounded-lg shadow"
