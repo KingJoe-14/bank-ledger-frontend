@@ -20,7 +20,6 @@ export default function LoginForm() {
             const data = await loginUser({ email, password });
 
             if (data?.access && data?.refresh) {
-                // ✅ Save tokens for later use
                 localStorage.setItem("token", data.access);
                 localStorage.setItem("refreshToken", data.refresh);
 
