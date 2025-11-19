@@ -74,7 +74,6 @@ export default function LoginForm() {
                     />
                 </div>
 
-                {/* Submit */}
                 <button
                     type="submit"
                     disabled={loading}
