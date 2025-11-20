@@ -74,7 +74,6 @@ export default function LoginForm() {
                     />
                 </div>
 
-                {/* Submit */}
                 <button
                     type="submit"
                     disabled={loading}
@@ -83,7 +82,6 @@ export default function LoginForm() {
                     {loading ? "Logging in..." : "Login"}
                 </button>
 
-                {/* Register link */}
                 <div className="text-center text-sm mt-4">
                     Don’t have an account?{" "}
                     <a
