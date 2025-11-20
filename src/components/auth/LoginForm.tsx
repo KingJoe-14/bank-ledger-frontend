@@ -25,7 +25,6 @@ export default function LoginForm() {
 
                 toast.success("Login successful");
 
-                // 🔹 Redirect after success
                 setTimeout(() => {
                     router.push("/dashboard");
                 }, 1000);
