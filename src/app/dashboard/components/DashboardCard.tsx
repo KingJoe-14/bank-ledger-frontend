@@ -1,4 +1,3 @@
-// src/app/dashboard/components/DashboardCard.tsx
 "use client";
 
 interface DashboardCardProps {
