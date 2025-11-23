@@ -12,7 +12,6 @@ export default function Navbar() {
             <div className="flex items-center gap-4">
                 <button className="hover:underline">Logout</button>
 
-                {/* Profile */}
                 <div className="flex items-center gap-2 cursor-pointer">
                     <Image
                         src="https://ui-avatars.com/api/?name=John+Doe&background=0D8ABC&color=fff"
