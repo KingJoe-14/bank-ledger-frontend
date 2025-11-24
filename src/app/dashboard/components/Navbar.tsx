@@ -8,7 +8,6 @@ export default function Navbar() {
             {/* Left */}
             <h1 className="text-lg font-semibold">SecureBank Dashboard</h1>
 
-            {/* Right */}
             <div className="flex items-center gap-4">
                 <button className="hover:underline">Logout</button>
 
