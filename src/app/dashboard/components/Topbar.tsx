@@ -70,7 +70,6 @@ export default function Topbar() {
                             {profile.initials}
                         </div>
 
-                        {/* Name */}
                         <h2 className="mt-4 text-2xl font-bold text-center text-gray-800">
                             {profile.first_name} {profile.last_name}
                         </h2>
