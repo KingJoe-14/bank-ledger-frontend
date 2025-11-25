@@ -70,13 +70,11 @@ export default function Topbar() {
                             {profile.initials}
                         </div>
 
-                        {/* Name */}
                         <h2 className="mt-4 text-2xl font-bold text-center text-gray-800">
                             {profile.first_name} {profile.last_name}
                         </h2>
                         <p className="text-sm text-center text-gray-500">User Profile</p>
 
-                        {/* Info Section */}
                         <div className="mt-6 space-y-4">
                             <div className="flex items-center justify-center gap-3">
                                 <Mail className="w-5 h-5 text-blue-500" />
