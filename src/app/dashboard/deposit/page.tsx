@@ -127,7 +127,6 @@ export default function DepositPage() {
                 </button>
             </form>
 
-            {/* ✅ Modal */}
             {modal && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl shadow-xl w-[320px] p-6 text-center">
