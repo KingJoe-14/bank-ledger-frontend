@@ -72,7 +72,6 @@ export default function DepositPage() {
             setAmount("");
             setDescription("");
         } catch (err: any) {
-            // ❌ show error modal
             setModal({
                 type: "error",
                 message: err.message,
