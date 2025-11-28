@@ -40,7 +40,6 @@ export default function Sidebar() {
                 ))}
             </nav>
 
-            {/* Logout button */}
             <div className="p-4 border-t border-blue-700">
                 <button
                     onClick={handleLogout}
