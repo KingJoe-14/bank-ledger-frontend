@@ -63,7 +63,6 @@ export default function DepositPage() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.detail || "Deposit failed");
 
-            // ✅ show success modal
             setModal({
                 type: "success",
                 message: `Deposit successful! New balance: ${data.new_balance}`,
