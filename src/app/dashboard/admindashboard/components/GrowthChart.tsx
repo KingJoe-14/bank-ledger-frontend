@@ -20,7 +20,6 @@ interface GrowthChartProps {
 }
 
 export default function GrowthChart({ data }: GrowthChartProps) {
-    // Mock data if API not yet ready
     const chartData = [
         { name: "Mon", deposits: 1200, withdrawals: 800 },
         { name: "Tue", deposits: 900, withdrawals: 600 },
