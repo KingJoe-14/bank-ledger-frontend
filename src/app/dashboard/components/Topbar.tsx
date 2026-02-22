@@ -42,7 +42,6 @@ export default function Topbar() {
                     <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
                         {profile.initials}
                     </div>
-                    {/* Name + Email */}
                     <div className="text-left">
             <span className="block text-sm font-medium text-gray-800">
               {profile.first_name} {profile.last_name}
@@ -52,7 +51,6 @@ export default function Topbar() {
                 </button>
             </div>
 
-            {/* Profile Modal */}
             {open && (
                 <div className="fixed inset-0 bg-gray-700/40 flex justify-center items-center z-50">
                     <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 relative">
